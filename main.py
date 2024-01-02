@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from discord.ext import tasks
 
 API_URL = "https://api.bandai-tcg-plus.com/api/user/event/list"
-TOKEN = "MTE5MTgyNDYyODA3MTU0Mjc4NQ.GrqSTM._wvVJLXQyIsKhuIUUy-bW7r5r0Hp5eRtm5c-Q0"
+TOKEN = <TOKEN>
 
 load_dotenv()
 client = discord.Client(intents=discord.Intents.default())
