@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from discord.ext import tasks
 
 API_URL = "https://api.bandai-tcg-plus.com/api/user/event/list"
-TOKEN = <TOKEN>
+TOKEN = "MTE5MTgyNDYyODA3MTU0Mjc4NQ.GrqSTM._wvVJLXQyIsKhuIUUy-bW7r5r0Hp5eRtm5c-Q0"
 
 load_dotenv()
 client = discord.Client(intents=discord.Intents.default())
@@ -58,7 +58,7 @@ waypoint = StoreDetails(organizer_id=464,
 
 @tasks.loop(hours=1.0)
 async def check_shops():
-    channel = client.get_channel(<CHANNEL_ID>)
+    channel = client.get_channel(1191833508344242176)
     await channel.send(f"Number of events at Mitsuwa right now: {len(mitsuwa.get_current_events())}")
     await channel.send(f"Number of events at Waypoint right now: {len(waypoint.get_current_events())}")
 
