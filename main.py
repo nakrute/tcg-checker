@@ -4,6 +4,8 @@ import datetime as dt
 from typing import Any
 import discord
 from dotenv import load_dotenv
+from discord.ext import tasks
+
 API_URL = "https://api.bandai-tcg-plus.com/api/user/event/list"
 TOKEN = <TOKEN>
 
@@ -54,10 +56,15 @@ waypoint = StoreDetails(organizer_id=464,
                         country_code="US",)
 
 
-@client.event
-async def on_ready():
+@tasks.loop(hours=1.0)
+async def check_shops():
     channel = client.get_channel(<CHANNEL_ID>)
     await channel.send(f"Number of events at Mitsuwa right now: {len(mitsuwa.get_current_events())}")
     await channel.send(f"Number of events at Waypoint right now: {len(waypoint.get_current_events())}")
+
+
+@client.event
+async def on_ready():
+    check_shops.start()
 
 client.run(TOKEN)
