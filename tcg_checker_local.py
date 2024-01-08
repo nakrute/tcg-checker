@@ -43,35 +43,39 @@ class StoreDetails:
         self.first_event_date = self._events[0]['start_datetime']
         self.last_event_date = self._events[-1]['start_datetime']
 
+mitsuwa = StoreDetails(organizer_id=5567,
+                       limit=50,
+                       offset=0,
+                       game_title_id=4,
+                       application_open_flg=0,
+                       country_code="US")
+waypoint = StoreDetails(organizer_id=464,
+                        limit=50,
+                        offset=0,
+                        game_title_id=4,
+                        application_open_flg=0,
+                        country_code="US")
 
 minute_check = dt.datetime.now().minute
 while True:
     if 1 <= minute_check <= 5:
-        mitsuwa = StoreDetails(organizer_id=5567,
-                               limit=50,
-                               offset=0,
-                               game_title_id=4,
-                               application_open_flg=0,
-                               country_code="US")
-        waypoint = StoreDetails(organizer_id=464,
-                                limit=50,
-                                offset=0,
-                                game_title_id=4,
-                                application_open_flg=0,
-                                country_code="US")
-        
+
+        run_time = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         mitsuwa.get_current_events()
         mitsuwa.first_and_last_event()
         waypoint.get_current_events()
         waypoint.first_and_last_event()
-        
+
         webhook = SyncWebhook.from_url(WEBHOOK_URL)
-        webhook.send(f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n"
-                     f"First Event Date for Mitsuwa is: {mitsuwa.first_event_date}\n"
-                     f"Last Event Date for Mitsuwa is: {mitsuwa.last_event_date}")
-        webhook.send(f"Number of events at Waypoint right now: {len(waypoint._events)}\n"
-                     f"First Event Date for Waypoint is: {waypoint.first_event_date}\n"
-                     f"Last Event Date for Waypoint is: {waypoint.last_event_date}")
+        webhook.send(f"Data collected at: {run_time}")
+        webhook.send(
+            f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n"
+            f"First Event Date for Mitsuwa is: {mitsuwa.first_event_date}\n"
+            f"Last Event Date for Mitsuwa is: {mitsuwa.last_event_date}")
+        webhook.send(
+            f"Number of events at Waypoint right now: {len(waypoint._events)}\n"
+            f"First Event Date for Waypoint is: {waypoint.first_event_date}\n"
+            f"Last Event Date for Waypoint is: {waypoint.last_event_date}")
         break
     else:
         minute_check = dt.datetime.now().minute
