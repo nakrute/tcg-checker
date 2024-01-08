@@ -2,6 +2,7 @@ import requests as re
 import json
 import datetime as dt
 from discord import SyncWebhook
+import time
 
 API_URL = "https://api.bandai-tcg-plus.com/api/user/event/list"
 WEBHOOK_URL = "https://discord.com/api/webhooks/1192839108402348182/U7kvQN32s0-O38OkBWZJUnU37PUtTcG93Iqcqs9crBsPyhYxdcPpPY40y79QHzPtoQDj"
@@ -43,28 +44,35 @@ class StoreDetails:
         self.last_event_date = self._events[-1]['start_datetime']
 
 
-mitsuwa = StoreDetails(organizer_id=5567,
-                       limit=50,
-                       offset=0,
-                       game_title_id=4,
-                       application_open_flg=0,
-                       country_code="US")
-waypoint = StoreDetails(organizer_id=464,
-                        limit=50,
-                        offset=0,
-                        game_title_id=4,
-                        application_open_flg=0,
-                        country_code="US")
-
-mitsuwa.get_current_events()
-mitsuwa.first_and_last_event()
-waypoint.get_current_events()
-waypoint.first_and_last_event()
-
-webhook = SyncWebhook.from_url(WEBHOOK_URL)
-webhook.send(f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n"
-             f"First Event Date for Mitsuwa is: {mitsuwa.first_event_date}\n"
-             f"Last Event Date for Mitsuwa is: {mitsuwa.last_event_date}")
-webhook.send(f"Number of events at Waypoint right now: {len(waypoint._events)}\n"
-             f"First Event Date for Waypoint is: {waypoint.first_event_date}\n"
-             f"Last Event Date for Waypoint is: {waypoint.last_event_date}")
+minute_check = dt.datetime.now().minute
+while True:
+    if minute_check == 1:
+        mitsuwa = StoreDetails(organizer_id=5567,
+                               limit=50,
+                               offset=0,
+                               game_title_id=4,
+                               application_open_flg=0,
+                               country_code="US")
+        waypoint = StoreDetails(organizer_id=464,
+                                limit=50,
+                                offset=0,
+                                game_title_id=4,
+                                application_open_flg=0,
+                                country_code="US")
+        
+        mitsuwa.get_current_events()
+        mitsuwa.first_and_last_event()
+        waypoint.get_current_events()
+        waypoint.first_and_last_event()
+        
+        webhook = SyncWebhook.from_url(WEBHOOK_URL)
+        webhook.send(f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n"
+                     f"First Event Date for Mitsuwa is: {mitsuwa.first_event_date}\n"
+                     f"Last Event Date for Mitsuwa is: {mitsuwa.last_event_date}")
+        webhook.send(f"Number of events at Waypoint right now: {len(waypoint._events)}\n"
+                     f"First Event Date for Waypoint is: {waypoint.first_event_date}\n"
+                     f"Last Event Date for Waypoint is: {waypoint.last_event_date}")
+        break
+    else:
+        minute_check = dt.datetime.now().minute
+        time.sleep(30)
