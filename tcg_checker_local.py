@@ -46,7 +46,7 @@ class StoreDetails:
 
 minute_check = dt.datetime.now().minute
 while True:
-    if minute_check >= 1:
+    if minute_check >= 1 and minute_check <= 5:
         mitsuwa = StoreDetails(organizer_id=5567,
                                limit=50,
                                offset=0,
