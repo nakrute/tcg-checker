@@ -1,3 +1,9 @@
+"""
+This was done as a prefect example, but without a way to kickoff a the remote worker pool
+I found this not the best way to run the bot. For now using GHA, and staging the bot
+a few minutes early so that it's waiting for the proper time to run.
+"""
+
 import requests as re
 import json
 import datetime as dt
