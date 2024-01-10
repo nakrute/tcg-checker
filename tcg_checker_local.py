@@ -79,4 +79,4 @@ while True:
         break
     else:
         minute_check = dt.datetime.now().minute
-        time.sleep(30)
+        time.sleep(10)
