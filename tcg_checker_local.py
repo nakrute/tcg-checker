@@ -55,6 +55,30 @@ waypoint = StoreDetails(organizer_id=464,
                         game_title_id=4,
                         application_open_flg=0,
                         country_code="US")
+montasy = StoreDetails(organizer_id=442 ,
+                       limit=50,
+                       offset=0,
+                       game_title_id=4,
+                       application_open_flg=0,
+                       country_code="US")
+b_dragon = StoreDetails(organizer_id=3266,
+                        limit=50,
+                        offset=0,
+                        game_title_id=4,
+                        application_open_flg=0,
+                        country_code="US")
+silk_road = StoreDetails(organizer_id=1003,
+                         limit=50,
+                         offset=0,
+                         game_title_id=4,
+                         application_open_flg=0,
+                         country_code="US")
+gilded_raven = StoreDetails(organizer_id=6365,
+                            limit=50,
+                            offset=0,
+                            game_title_id=4,
+                            application_open_flg=0,
+                            country_code="US")
 
 minute_check = dt.datetime.now().minute
 while True:
@@ -62,20 +86,26 @@ while True:
 
         run_time = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         mitsuwa.get_current_events()
-        mitsuwa.first_and_last_event()
+        # mitsuwa.first_and_last_event()
         waypoint.get_current_events()
-        waypoint.first_and_last_event()
+        # waypoint.first_and_last_event()
+        montasy.get_current_events()
+        # montasy.first_and_last_event()
+        b_dragon.get_current_events()
+        # b_dragon.first_and_last_event()
+        silk_road.get_current_events()
+        # silk_road.first_and_last_event()
+        gilded_raven.get_current_events()
+        # gilded_raven.first_and_last_event()
 
         webhook = SyncWebhook.from_url(WEBHOOK_URL)
         webhook.send(f"Data collected at: {run_time}")
-        webhook.send(
-            f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n"
-            f"First Event Date for Mitsuwa is: {mitsuwa.first_event_date}\n"
-            f"Last Event Date for Mitsuwa is: {mitsuwa.last_event_date}")
-        webhook.send(
-            f"Number of events at Waypoint right now: {len(waypoint._events)}\n"
-            f"First Event Date for Waypoint is: {waypoint.first_event_date}\n"
-            f"Last Event Date for Waypoint is: {waypoint.last_event_date}")
+        webhook.send(f"Number of events at Mitsuwa right now: {len(mitsuwa._events)}\n")
+        webhook.send(f"Number of events at Waypoint right now: {len(waypoint._events)}\n")
+        webhook.send(f"Number of events at Montasy right now: {len(montasy._events)}\n")
+        webhook.send(f"Number of events at Bearded Dragon right now: {len(b_dragon._events)}\n")
+        webhook.send(f"Number of events at Silk Road right now: {len(silk_road._events)}\n")
+        webhook.send(f"Number of events at Gilded Raven right now: {len(gilded_raven._events)}\n")
         break
     else:
         minute_check = dt.datetime.now().minute
